@@ -1,0 +1,20 @@
+{
+    "KPlugin": {
+        "Authors": [
+            {
+                "Email": "community@kde.org",
+                "Name": "KDE Plasma Community"
+            }
+        ],
+        "Category": "Hardware",
+        "Description": "Hardware Monitor LED Backlight Brightness Control for KDE Plasma 6 (Flicker-Free, Zero-Polling DDC/CI)",
+        "Icon": "monitorian-brightness",
+        "Id": "org.kde.plasma.luminar",
+        "License": "GPL-3.0-or-later",
+        "Name": "Luminar",
+        "Version": "1.0.0",
+        "Website": "https://github.com/shrektech/luminar"
+    },
+    "KPackageStructure": "Plasma/Applet",
+    "X-Plasma-API-Minimum-Version": "6.0"
+}
