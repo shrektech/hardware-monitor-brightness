@@ -15,6 +15,21 @@ Most software-based brightness utilities on Linux adjust color lookup tables (ga
 
 ---
 
+## The Dock Flickering Bug & The Solution
+
+### The Issue
+On multi-monitor workstations connected via USB-C, Thunderbolt, or DisplayPort MST (Multi-Stream Transport) docks, conventional brightness services (such as KDE PowerDevil's built-in DDC probe) query display $\text{I}^2\text{C}$ buses periodically in the background. 
+
+Because DisplayPort MST multiplexes multiple video and AUX channel streams across a single physical link, continuous background $\text{I}^2\text{C}$ polling collisions frequently cause bus timeouts (`EBUSY` / error `-16`) and link retraining. This results in external monitors intermittently blinking black, losing sync, or flickering. To avoid this, many users are forced to disable DDC entirely (`POWERDEVIL_NO_DDCUTIL=1`), losing hardware brightness control.
+
+### How This Widget Solves It
+**Hardware Monitor Brightness** uses a strictly **event-driven, zero-polling design**:
+1. **Cached Hardware Topologies:** Display properties and bus endpoints are cached in RAM on startup and during manual rescans. Normal slider operations never trigger full bus discovery sweeps (`ddcutil detect`).
+2. **Sequential Hardware Queue:** An asynchronous non-blocking worker daemon coalesces rapid slider movements and serializes $\text{I}^2\text{C}$ transactions sequentially per display, completely preventing bus lock contention.
+3. **Silent Bus State:** The $\text{I}^2\text{C}$ bus remains 100% idle and silent at all times until a slider or scroll event occurs, completely eliminating dock screen blinks and flickers while providing seamless physical backlight control.
+
+---
+
 ## Features
 
 - **Direct Hardware DDC/CI Control:** Adjusts monitor backlight registers (`VCP Code 10`) for full color fidelity and contrast preservation.
@@ -89,11 +104,11 @@ Brightness adjustments can be triggered from custom keyboard shortcuts or termin
 
 ```bash
 # Increase / decrease by 5%
-~/.local/share/plasma/plasmoids/org.custom.hardwarebrightness/contents/scripts/brightness-worker.py +5
-~/.local/share/plasma/plasmoids/org.custom.hardwarebrightness/contents/scripts/brightness-worker.py -5
+~/.local/share/plasma/plasmoids/org.kde.plasma.hardwarebrightness/contents/scripts/brightness-worker.py +5
+~/.local/share/plasma/plasmoids/org.kde.plasma.hardwarebrightness/contents/scripts/brightness-worker.py -5
 
 # Set absolute percentage
-~/.local/share/plasma/plasmoids/org.custom.hardwarebrightness/contents/scripts/brightness-worker.py set 75
+~/.local/share/plasma/plasmoids/org.kde.plasma.hardwarebrightness/contents/scripts/brightness-worker.py set 75
 ```
 
 ---
