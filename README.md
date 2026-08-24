@@ -1,24 +1,24 @@
-# ☀️ Luminar
+# ☀️ Hardware Monitor Brightness
 
 > **Hardware Monitor Brightness Controller for KDE Plasma 6**  
 > *Flicker-free, zero-polling DDC/CI physical LED backlight control & multi-monitor manager.*
 
 ---
 
-## 🌟 Why Luminar?
+## 🌟 Why Hardware Monitor Brightness?
 
 Standard desktop brightness tools on Linux often suffer from two major problems:
 1. **Software Gamma Dimming:** They adjust pixel color curves on the GPU rather than physical backlights, degrading contrast and washing out colors.
-2. **Dock Flickering:** Continuous background $\text{I}^2\text{C}$ polling loops saturate DisplayPort AUX channels on USB-C and MST docks, causing external screens to blink or drop sync.
+2. **Dock Flickering:** Continuous background I2C polling loops saturate DisplayPort AUX channels on USB-C and MST docks, causing external screens to blink or drop sync.
 
-**Luminar solves both.** It provides a lightweight, responsive, and robust hardware brightness control built natively for **KDE Plasma 6**.
+**Hardware Monitor Brightness solves both.** It provides a lightweight, responsive, and robust hardware brightness control built natively for **KDE Plasma 6**.
 
 ---
 
 ## ✨ Features
 
 - 💡 **Pure Hardware DDC/CI:** Directly adjusts the physical LED backlight registers (`VCP 10`) of your monitors—100% full uncompressed color dynamic range.
-- 🚫 **Zero-Polling / Flicker-Free:** Never spammed across the $\text{I}^2\text{C}$ bus. The bus stays completely silent until you touch a slider or scroll.
+- 🚫 **Zero-Polling / Flicker-Free:** Never spammed across the I2C bus. The bus stays completely silent until you touch a slider or scroll.
 - 🎛️ **Master & Individual Sliders:** Adjust all screens together with the Master slider and quick presets (`25%`, `50%`, `75%`, `100%`), or adjust each monitor independently by model name.
 - 🖱️ **Taskbar Mouse-Wheel Scroll:** Scroll directly on the taskbar icon to step brightness up or down.
 - 🚀 **0ms Instant OSD:** Asynchronous, non-blocking background worker with file locking (`flock`) to coalesce rapid user inputs safely.
@@ -31,7 +31,7 @@ Standard desktop brightness tools on Linux often suffer from two major problems:
 
 ### Option 1: Via KDE Store (Recommended)
 1. Right-click your KDE panel $\rightarrow$ **Add Widgets...**
-2. Click **Get New Widgets...** $\rightarrow$ Search for **`Luminar`**.
+2. Click **Get New Widgets...** $\rightarrow$ Search for **`Hardware Monitor Brightness`**.
 3. Click **Install**.
 
 ---
@@ -53,7 +53,7 @@ systemctl --user restart plasma-plasmashell.service
 
 ## 🔧 Prerequisites
 
-Luminar communicates with external displays using standard VESA DDC/CI via `ddcutil`.
+Hardware Monitor Brightness communicates with external displays using standard VESA DDC/CI via `ddcutil`.
 
 1. **Install `ddcutil`:**
    ```bash
@@ -77,4 +77,4 @@ Luminar communicates with external displays using standard VESA DDC/CI via `ddcu
 
 ## 📄 License
 
-Luminar is licensed under the **GNU General Public License v3.0 or later** ([GPL-3.0-or-later](LICENSE)).
+Hardware Monitor Brightness is licensed under the **GNU General Public License v3.0 or later** ([GPL-3.0-or-later](LICENSE)).
