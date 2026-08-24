@@ -1,6 +1,7 @@
 import QtQuick 2.15
 import QtQuick.Layouts 1.15
 import QtQuick.Controls 2.15
+import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.plasma.plasmoid 2.0
 import org.kde.plasma.components 3.0 as PlasmaComponents3
 import org.kde.kirigami 2.20 as Kirigami
@@ -17,6 +18,7 @@ import org.kde.plasma.plasma5support 2.0 as Plasma5Support
  * - Master slider adjusting all connected displays simultaneously.
  * - One-click preset quick buttons (25%, 50%, 75%, 100%).
  * - Individual per-display sliders with live model names and IDs.
+ * - Native Plasma Global Actions and right-click contextual menu actions.
  * - Asynchronous debouncing engine avoiding bus lockups and UI freezes.
  */
 PlasmoidItem {
@@ -37,6 +39,27 @@ PlasmoidItem {
     property bool isDragging: false
 
     // =========================================================================
+    // Native Plasma Contextual Actions & Global Shortcut Integration
+    // =========================================================================
+    Plasmoid.contextualActions: [
+        PlasmaCore.Action {
+            text: i18n("Increase Brightness (+%1%)", plasmoid.configuration.stepSize || 5)
+            icon.name: "list-add"
+            onTriggered: root.adjustMasterBrightness(1)
+        },
+        PlasmaCore.Action {
+            text: i18n("Decrease Brightness (-%1%)", plasmoid.configuration.stepSize || 5)
+            icon.name: "list-remove"
+            onTriggered: root.adjustMasterBrightness(-1)
+        },
+        PlasmaCore.Action {
+            text: i18n("Rescan Connected Displays")
+            icon.name: "view-refresh"
+            onTriggered: root.refreshDisplays(true)
+        }
+    ]
+
+    // =========================================================================
     // Control & Synchronization Functions
     // =========================================================================
 
@@ -55,7 +78,7 @@ PlasmoidItem {
         cmdRunner.exec(`${workerScript} set ${masterBrightness} #${Date.now()}`);
     }
 
-    // Adjust master brightness by relative step from mouse wheel
+    // Adjust master brightness by relative step from mouse wheel or action
     function adjustMasterBrightness(delta) {
         var step = plasmoid.configuration.stepSize || 5;
         var finalDelta = (delta > 0) ? `+${step}` : `-${step}`;
@@ -111,7 +134,6 @@ PlasmoidItem {
                     root.masterBrightness = res.master;
                 }
                 if (res.displays && Array.isArray(res.displays) && res.displays.length > 0) {
-                    // Update model in-place if count matches to prevent UI flicker
                     if (displayModel.count === res.displays.length) {
                         for (var i = 0; i < res.displays.length; ++i) {
                             if (!root.isDragging) {
