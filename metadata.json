@@ -13,7 +13,7 @@
         "License": "GPL-3.0-or-later",
         "Name": "Hardware Monitor Brightness",
         "Version": "1.0.0",
-        "Website": "https://github.com/shrektech/luminar"
+        "Website": "https://github.com/shrektech/hardware-monitor-brightness"
     },
     "KPackageStructure": "Plasma/Applet",
     "X-Plasma-API-Minimum-Version": "6.0"

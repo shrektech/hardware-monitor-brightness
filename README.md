@@ -39,7 +39,7 @@ Standard desktop brightness tools on Linux often suffer from two major problems:
 ### Option 2: Manual Installation from Source
 ```bash
 # 1. Clone repository
-git clone https://github.com/shrektech/luminar.git
+git clone https://github.com/shrektech/hardware-monitor-brightness.git
 cd luminar
 
 # 2. Install widget package for KDE Plasma 6
